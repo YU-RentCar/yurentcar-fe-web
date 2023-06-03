@@ -13,7 +13,6 @@ import { changeUserInfo } from "./store";
 function App() {
   let nav = useNavigate();
   let curLocation = useLocation();
-  console.log(curLocation);
   let dispatch = useDispatch();
   let userInfo = useSelector((state) => state.userInfo);
 
@@ -31,10 +30,9 @@ function App() {
           }
         )
         .then(function (response) {
-          console.log(response);
           if (response.status === 200) {
+            console.log(200);
             dispatch(changeUserInfo(response.data));
-            console.log(response.data);
             nav("/home");
           }
         })
@@ -47,9 +45,7 @@ function App() {
     })();
   }, []);
 
-  useEffect(() => {
-    console.log("hi", userInfo);
-  }, [userInfo]);
+  useEffect(() => {}, [userInfo]);
 
   return (
     <>
