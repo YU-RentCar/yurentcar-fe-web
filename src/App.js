@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { Nav } from "./components/Nav";
 import { MyPage } from "./pages/myPage/MyPage";
 import { Home } from "./pages/home/Home";
@@ -12,6 +12,8 @@ import { changeUserInfo } from "./store";
 
 function App() {
   let nav = useNavigate();
+  let curLocation = useLocation();
+  console.log(curLocation);
   let dispatch = useDispatch();
   let userInfo = useSelector((state) => state.userInfo);
 
@@ -53,7 +55,7 @@ function App() {
     <>
       <div className="w-full h-[100vh]">
         <div className="fixed top-0 left-0 w-full h-full bg-slate-200 -z-50"></div>
-        <Nav />
+        {curLocation.pathname === "/auth" ? null : <Nav />}
         <Routes>
           <Route path="/auth" element={<Auth />}></Route>
           <Route path="/mypage" element={<MyPage />}></Route>
