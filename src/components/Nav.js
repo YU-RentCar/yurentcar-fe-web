@@ -1,9 +1,15 @@
 import React from "react";
 import logo from "../assets/Logo.png";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Nav(props) {
   let nav = useNavigate();
+
+  let userInfo = useSelector((state) => {
+    return state.userInfo;
+  });
+
   return (
     <>
       <div className="fixed top-0 left-0 right-0 flex justify-between w-screen border-b-[1px] h-20 bg-sky-100 border-slate-600 z-50">
@@ -30,7 +36,7 @@ function Nav(props) {
               마이페이지
             </li>
             <li>
-              <span className="text-amber-700">{props.name}</span> 고객님
+              <span className="text-amber-700">{userInfo.nickname}</span> 고객님
               안녕하세요!
             </li>
           </ul>

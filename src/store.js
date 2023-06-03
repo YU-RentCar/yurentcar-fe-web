@@ -10,7 +10,9 @@ let userInfo = createSlice({
   name: "userInfo",
   initialState: {},
   reducers: {
-    changeUserInfo(state) {
+    changeUserInfo(state, info) {
+      console.log("changeUserInfo");
+      state = info.payload;
       return state;
     },
   },

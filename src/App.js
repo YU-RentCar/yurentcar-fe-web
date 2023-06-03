@@ -7,35 +7,47 @@ import { HomeInquireCar } from "./pages/home/homeInquireCar/HomeInquireCar";
 import { Auth } from "./pages/auth/Auth";
 import axios from "axios";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { changeUserInfo } from "./store";
 
 function App() {
   let nav = useNavigate();
+  let dispatch = useDispatch();
+  let userInfo = useSelector((state) => state.userInfo);
 
   useEffect(() => {
-    axios
-      .post(
-        "http://localhost:8080/api/v1/auth/user-info",
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      )
-      .then(function (response) {
-        console.log(response);
-        if (response.status === 200) {
-          nav("/home");
-        }
-      })
-      .catch(function (error) {
-        console.log(error.response);
-        if (error.response.status === 401) {
-          nav("/auth");
-        }
-      });
+    (async () => {
+      await axios
+        .post(
+          "http://localhost:8080/api/v1/auth/user-info",
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        )
+        .then(function (response) {
+          console.log(response);
+          if (response.status === 200) {
+            dispatch(changeUserInfo(response.data));
+            console.log(response.data);
+            nav("/home");
+          }
+        })
+        .catch(function (error) {
+          console.log(error.response);
+          if (error.response.status === 401) {
+            nav("/auth");
+          }
+        });
+    })();
   }, []);
+
+  useEffect(() => {
+    console.log("hi", userInfo);
+  }, [userInfo]);
 
   return (
     <>
